@@ -134,3 +134,22 @@ class Metrics:
 
         
         return summary.to_string(index=False)
+
+    def number_of_clients_sales(self, dataFrame: pd.DataFrame):
+        """
+        Counts the number os sales per client
+    
+        Parameters:
+            dataFrame (pd.DataFrame): Receives a pandas dataframe.
+    
+        Returns:
+            a dataframe with 2 collumns of Client and Número de Vendas
+        """
+        
+        clients_sales = dataFrame["Cliente"].value_counts().reset_index()
+        
+        clients_sales.columns = ["Cliente", "Número de Vendas"]
+        
+        return clients_sales
+    
+        

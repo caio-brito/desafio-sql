@@ -6,6 +6,8 @@ metrics = Metrics()
 dataFrame = metrics.csv_to_table("/home/brito/Documentos/desenvolvimento/Recrutamento Triggo/desafio-sql/DB_Teste.csv")
 
 
+
+
 ordened_sales = metrics.seller_summari(dataFrame)
 
 print() 
@@ -37,3 +39,13 @@ print(metrics.sale_type_avg(dataFrame))
 
 print()
 print("================================================================================================") 
+
+print() 
+print("======================= Numero de vendas por cliente =========================")
+print()
+
+print(metrics.number_of_clients_sales(dataFrame))
+
+print()
+print("================================================================================================") 
+
