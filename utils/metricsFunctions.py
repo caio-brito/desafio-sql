@@ -152,4 +152,37 @@ class Metrics:
         
         return clients_sales
     
+    def client_list_with_id(self, dataFrame: pd.DataFrame):
+        
+        client_list = dataFrame["Cliente"].drop_duplicates()
+
+        # Gerar os IDs (começando de 1)
+        id_list = list(range(1, len(client_list) + 1))
+
+        df = pd.DataFrame({
+            'ID': id_list,
+            'Cliente': client_list
+        })
+        
+        return df
+    
+    def seller_list_with_id(self, dataFrame: pd.DataFrame):
+        
+        # Remover duplicados mantendo a primeira ocorrência de cada vendedor e sua respectiva equipe
+        unique_sellers = dataFrame[['Vendedor', 'Equipe']].drop_duplicates()
+
+        # Gerar os IDs (começando de 1)
+        id_list = list(range(1, len(unique_sellers) + 1))
+
+        # Criar um novo DataFrame com IDs, Vendedores e Equipes
+        df = pd.DataFrame({
+            'ID': id_list,
+            'Vendedor': unique_sellers['Vendedor'],
+            'Equipe': unique_sellers['Equipe']
+        })
+        
+        return df
+    
+    #def full_formated_dataframe(self, dataFrame: pd.DataFrame):
+
         

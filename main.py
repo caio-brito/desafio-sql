@@ -1,8 +1,9 @@
 from utils.metricsFunctions import Metrics
+from bd_initiation import Init_bd
 
 metrics = Metrics()
 
-# Salvando o csv em um dataframe
+# Saving the csv in a panads dataframe
 dataFrame = metrics.csv_to_table("/home/brito/Documentos/desenvolvimento/Recrutamento Triggo/desafio-sql/DB_Teste.csv")
 
 
@@ -32,7 +33,7 @@ print()
 print("================================================================================================") 
 
 print() 
-print("======================= média de venda =========================")
+print("======================================= média de venda =========================================")
 print()
 
 print(metrics.sale_type_avg(dataFrame))
@@ -41,11 +42,17 @@ print()
 print("================================================================================================") 
 
 print() 
-print("======================= Numero de vendas por cliente =========================")
+print("================================= Numero de vendas por cliente =================================")
 print()
 
 print(metrics.number_of_clients_sales(dataFrame))
 
 print()
-print("================================================================================================") 
+print("================================================================================================")
 
+
+
+bd = Init_bd()
+
+# Reusing the manipuled dataFrame to create the dataBase onm postgrew with valor in number format 
+bd.bd_configuration(dataFrame)
