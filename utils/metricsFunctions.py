@@ -169,13 +169,13 @@ class Metrics:
     
     def seller_list_with_id(self, dataFrame: pd.DataFrame):
         """
-        
+        Extract the Vendedor and Equipe columns of the data frame and add a ID column
     
         Parameters:
             dataFrame (pd.DataFrame): Receives a pandas dataframe.
     
         Returns:
-            
+            dataFrame with the information of Vendedor and ID for the postgre insertion
         """
         # Remover duplicados mantendo a primeira ocorrência de cada vendedor e sua respectiva equipe
         unique_sellers = dataFrame[['Vendedor', 'Equipe']].drop_duplicates()
@@ -194,13 +194,13 @@ class Metrics:
     
     def full_formated_sales_dataframe(self, dataFrame: pd.DataFrame):
         """
-        
+        Format the dataFrame collumns of Data da Venda, Duração do Contrato (Meses) and add a new id column
     
         Parameters:
             dataFrame (pd.DataFrame): Receives a pandas dataframe.
     
         Returns:
-            
+        Formated dataFrame to add to the postgre table vendas
         """
         
         # Data da Venda to the postgre data format AAAA/MM/DD
@@ -214,6 +214,6 @@ class Metrics:
         id_list = list(range(1, len(dataFrame["ID"]) + 1))
          
         # Adding the new ID collumn for the dataFrame 
-         
         dataFrame['id_venda'] = id_list
+        
         return dataFrame
