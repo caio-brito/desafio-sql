@@ -42,6 +42,7 @@ class Metrics:
             The original dataframe with the collum Valor in float.
         """
         
+        # Guarantee the type string for Valor to aceppt the string manipulations bellow
         dataFrame['Valor'] =dataFrame['Valor'].astype(str)
         # Conversion of the currency string format to float
         dataFrame['Valor'] = dataFrame['Valor'].str.replace(r"R\$", "", regex=True) \
@@ -156,7 +157,7 @@ class Metrics:
         
         client_list = dataFrame["Cliente"].drop_duplicates()
 
-        # Gerar os IDs (começando de 1)
+        # Generate ID initiating in 1
         id_list = list(range(1, len(client_list) + 1))
 
         df = pd.DataFrame({
@@ -167,7 +168,15 @@ class Metrics:
         return df
     
     def seller_list_with_id(self, dataFrame: pd.DataFrame):
+        """
         
+    
+        Parameters:
+            dataFrame (pd.DataFrame): Receives a pandas dataframe.
+    
+        Returns:
+            
+        """
         # Remover duplicados mantendo a primeira ocorrência de cada vendedor e sua respectiva equipe
         unique_sellers = dataFrame[['Vendedor', 'Equipe']].drop_duplicates()
 
@@ -183,6 +192,28 @@ class Metrics:
         
         return df
     
-    #def full_formated_dataframe(self, dataFrame: pd.DataFrame):
-
+    def full_formated_sales_dataframe(self, dataFrame: pd.DataFrame):
+        """
         
+    
+        Parameters:
+            dataFrame (pd.DataFrame): Receives a pandas dataframe.
+    
+        Returns:
+            
+        """
+        
+        # Data da Venda to the postgre data format AAAA/MM/DD
+        dataFrame["Data da Venda"] = pd.to_datetime(dataFrame["Data da Venda"], format='%d/%m/%Y').dt.strftime('%Y-%m-%d')
+        
+        # Turning month collumn in int
+        dataFrame["Duração do Contrato (Meses)"] = dataFrame["Duração do Contrato (Meses)"].apply(int)
+        
+        
+        # Creating an ID for every sale in the dataframe
+        id_list = list(range(1, len(dataFrame["ID"]) + 1))
+         
+        # Adding the new ID collumn for the dataFrame 
+         
+        dataFrame['id_venda'] = id_list
+        return dataFrame

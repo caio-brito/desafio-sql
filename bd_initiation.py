@@ -100,7 +100,68 @@ class Init_bd:
                 print("A tabela vendedor já contém dados, inserção não realizada.")
 
 
+            #===========================================================
+            #Iniciating vendas table
+            #===========================================================
+
+            # Creating table if doesnt exists
+            create_script = ''' CREATE TABLE IF NOT EXISTS vendas (
+                                    id_venda            INT PRIMARY KEY,
+                                    id_cliente          INT NOT NULL,
+                                    id_vendedor         INT NOT NULL, 
+                                    id                  VARCHAR(20) NOT NULL,
+                                    categoria           VARCHAR(20) NOT NULL,
+                                    data_venda          DATE NOT NULL,
+                                    regional            VARCHAR(20) NOT NULL,
+                                    tipo                VARCHAR(20) NOT NULL,
+                                    valor               NUMERIC(15,2) NOT NULL,
+                                    duracao_contrato    INT,
+                                    CONSTRAINT fk_cliente FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
+                                    CONSTRAINT fk_vendedor FOREIGN KEY (id_vendedor) REFERENCES vendedor(id_vendedor)) '''
+            cur.execute(create_script)
+
+            # Verify if table is empty
+            cur.execute("SELECT COUNT(*) FROM vendas")
+            count = cur.fetchone()[0]
             
+            if count == 0:  
+                # Obtaining the filtred dataframe
+                formated_data = metric.full_formated_sales_dataframe(dataFrame)
+
+                # Using %s for avoid sql injection
+                insert_script = """INSERT INTO vendas (id_venda, id_cliente, id_vendedor, id, categoria, data_venda, regional, tipo, valor, duracao_contrato) 
+                                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+
+                # Loop of insertions in the database
+                for index, row in formated_data.iterrows():
+                    id_venda = row['id_venda']
+
+                    # Fetching id_cliente from the cliente table for FOREIGN KEY congruence
+                    cur.execute("SELECT id_cliente FROM cliente WHERE name = %s", (row["Cliente"],))
+                    id_cliente_result = cur.fetchone()
+                    id_cliente = id_cliente_result[0] if id_cliente_result else None
+
+                    # Fetching id_vendedor from the vendedor table for FOREIGN KEY congruence
+                    cur.execute("SELECT id_vendedor FROM vendedor WHERE name = %s", (row["Vendedor"],))
+                    id_vendedor_result = cur.fetchone()
+                    id_vendedor = id_vendedor_result[0] if id_vendedor_result else None
+
+                    id = row['ID']
+                    categoria = row['Categoria']
+                    data_venda = row['Data da Venda']
+                    regional = row['Regional']
+                    tipo = row['Tipo']
+                    valor = row['Valor']
+                    duracao_contrato = row['Duração do Contrato (Meses)']
+
+                    # Insert data
+                    cur.execute(insert_script, (id_venda, id_cliente, id_vendedor, id, categoria, data_venda, regional, tipo, valor, duracao_contrato))
+                
+                # Confirm the transactions
+                conn.commit()
+                print("Dados da tabela vendas inseridos com sucesso!")
+            else:
+                print("A tabela vendas já contém dados, inserção não realizada.")
 
 
 
