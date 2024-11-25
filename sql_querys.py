@@ -1,6 +1,6 @@
 import pandas as pd
 import psycopg2
-from utils.metricsFunctions import Metrics
+from utils.metrics_functions import Metrics
 
 
 
@@ -41,6 +41,33 @@ try:
     query_df = pd.DataFrame(query_result, columns=column_names)
     
     print(query_df.to_string(index=False))
+    
+    #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    # Liste a equipe de cada vendedor
+    #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    ''' 
+    Query bellow:
+    
+    Explanation of the query: vendas is renamede with a alias v, this is for associate the columns in vendas called on the SELECT
+    and avoid possible mistakes in join, because the table in the join can contain columns with the same name. The same is done 
+    
+    ''' 
+    query = ''' SELECT vr.name AS vendedor, vr.equipe FROM vendas v
+                JOIN vendedor vr ON vr.id_vendedor = vr.id_vendedor '''
+    cur.execute(query)
+    query_result = cur.fetchall()
+    
+    # creating a dataframe of the query received for a most visual print
+    column_names = [desc[0] for desc in cur.description]  # receives the name of the columns stored in cur
+    query_df = pd.DataFrame(query_result, columns=column_names)
+    
+    print(query_df.to_string(index=False))
+    
+    #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    # Construa uma tabela que avalie trimestralmente o resultado de vendas e plote um gráfico deste histórico
+    #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   
     
     
     

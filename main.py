@@ -1,4 +1,4 @@
-from utils.metricsFunctions import Metrics
+from utils.metrics_functions import Metrics
 from bd_initiation import Init_bd
 
 metrics = Metrics()

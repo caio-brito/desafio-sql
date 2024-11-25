@@ -1,6 +1,6 @@
 import pandas as pd
 import psycopg2
-from utils.metricsFunctions import Metrics
+from utils.metrics_functions import Metrics
 
 class Init_bd:
     
