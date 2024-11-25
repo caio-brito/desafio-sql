@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import pandas as pd
 import psycopg2
 from utils.metrics_functions import Metrics
@@ -53,8 +54,7 @@ try:
     and avoid possible mistakes in join, because the table in the join can contain columns with the same name. The same is done 
     
     ''' 
-    query = ''' SELECT vr.name AS vendedor, vr.equipe FROM vendas v
-                JOIN vendedor vr ON vr.id_vendedor = vr.id_vendedor '''
+    query = ''' SELECT name AS vendedor, equipe FROM vendedor '''
     cur.execute(query)
     query_result = cur.fetchall()
     
@@ -68,11 +68,43 @@ try:
     # Construa uma tabela que avalie trimestralmente o resultado de vendas e plote um gráfico deste histórico
     #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    
+    ''' 
+    Query bellow:
     
     
     
+    ''' 
+    query = ''' SELECT data_venda, valor FROM vendas '''
+    cur.execute(query)
+    query_result = cur.fetchall()
+    
+    # creating a dataframe of the query received for a most visual print
+    column_names = [desc[0] for desc in cur.description]  # receives the name of the columns stored in cur
+    query_df = pd.DataFrame(query_result, columns=column_names)
     
     
+    # Transforming the data_venda column to a format that pandas can understand
+    query_df['data_venda'] = pd.to_datetime(query_df['data_venda'], format='%Y/%m/%d')
+    
+    # Uses a function of pandas to convert the date to a period of quarter(trimestre em portugues)
+    query_df['trimestre'] = query_df['data_venda'].dt.to_period('Q')
+
+    # Quarter agroupment and sum of valors
+    resultado_trimestral = query_df.groupby('trimestre')['valor'].sum().reset_index()
+    
+    # Converting the trimestre collumn to string for the visualization on graph
+    resultado_trimestral['trimestre'] = resultado_trimestral['trimestre'].astype(str)
+    
+    # Plot
+    plt.figure(figsize=(10, 6))
+    plt.plot(resultado_trimestral['trimestre'], resultado_trimestral['valor'], marker='o')
+    plt.title('Histórico Trimestral de Vendas', fontsize=16)
+    plt.xlabel('Trimestre', fontsize=12)
+    plt.ylabel('Total Vendido', fontsize=12)
+    plt.xticks(rotation=45)
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
     
     # Close after the use
     cur.close()
