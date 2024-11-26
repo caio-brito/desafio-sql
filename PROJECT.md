@@ -28,14 +28,11 @@ Recomendo a utilização de um ambiente virtual para a compilação do projeto, 
 Na configuração do PostgreSQL, foram seguidas as etapas abaixo:  
 
 ### Instalando o PostgreSQL
-Para instalar o PostgreSQL no Ubuntu pelo terminal foi utilizada a versão "Included in Distribution". Siga as instruções da página oficial:  
+Para instalar o PostgreSQL no Ubuntu pelo terminal foi utilizada a versão "Included in Distribution" do página oficial. Execute o seguinte comando no terminal para instalá-lo:
 
-https://www.postgresql.org/download/linux/ubuntu/.
-
-Ou apenas execute o seguinte comando no terminal:
 ```bash
 sudo apt install postgresql
-```
+```  
 
 ### Instalando o pgAdmin
 Foram instaladas as versões **desktop** e **web** do pgAdmin4, mas apenas a **desktop** foi utilizada. Para instalar, siga a sequência de comandos abaixo, retiradas do site oficial: https://www.pgadmin.org/download/pgadmin-4-apt/.
@@ -95,6 +92,7 @@ sudo -i -u postgres
 Defina a nova senha como `postgres` e confirme. Agora será possível concluir a criação do servidor com o usuário e senha postgres.
 
 ### Criando o Banco de Dados
+
 Crie um banco de dados chamado `vendas` no servidor registrado. Esse banco será usado para armazenar as informações dos vendedores, clientes e vendas do CSV fornecido.
 
 ---
