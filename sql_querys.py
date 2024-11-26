@@ -41,6 +41,8 @@ try:
     column_names = [desc[0] for desc in cur.description]  # receives the name of the columns stored in cur
     query_df = pd.DataFrame(query_result, columns=column_names)
     
+    query_df.to_csv("sql_questão_2.txt", sep="\t", index=False, header=True, encoding="utf-8")
+    
     print(query_df.to_string(index=False))
     
     #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -61,6 +63,8 @@ try:
     # creating a dataframe of the query received for a most visual print
     column_names = [desc[0] for desc in cur.description]  # receives the name of the columns stored in cur
     query_df = pd.DataFrame(query_result, columns=column_names)
+    
+    query_df.to_csv("sql_questão_3.txt", sep="\t", index=False, header=True, encoding="utf-8")
     
     print(query_df.to_string(index=False))
     
@@ -91,6 +95,8 @@ try:
 
     # Quarter agroupment and sum of valors
     resultado_trimestral = query_df.groupby('trimestre')['valor'].sum().reset_index()
+    
+    resultado_trimestral.to_csv("sql_questão_4.txt", sep="\t", index=False, header=True, encoding="utf-8")
     
     # Converting the trimestre collumn to string for the visualization on graph
     resultado_trimestral['trimestre'] = resultado_trimestral['trimestre'].astype(str)
