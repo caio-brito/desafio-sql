@@ -3,7 +3,13 @@ import pandas as pd
 import psycopg2
 from utils.metrics_functions import Metrics
 
+'''
+This archive opens a postgreSQL database with the psycopg2 conector. 
 
+The querys are separeted with coments made of '%' simbols, for better reading
+
+All the query results are saved on txt archives.
+'''
 
 
 try:
@@ -72,12 +78,6 @@ try:
     # Construa uma tabela que avalie trimestralmente o resultado de vendas e plote um gráfico deste histórico
     #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    
-    ''' 
-    Query bellow:
-    
-    
-    
-    ''' 
     query = ''' SELECT data_venda, valor FROM vendas '''
     cur.execute(query)
     query_result = cur.fetchall()
