@@ -49,7 +49,6 @@ try:
     
     query_df.to_csv("sql_questão_2.txt", sep="\t", index=False, header=True, encoding="utf-8")
     
-    print(query_df.to_string(index=False))
     
     #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     # Liste a equipe de cada vendedor
@@ -71,8 +70,6 @@ try:
     query_df = pd.DataFrame(query_result, columns=column_names)
     
     query_df.to_csv("sql_questão_3.txt", sep="\t", index=False, header=True, encoding="utf-8")
-    
-    print(query_df.to_string(index=False))
     
     #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     # Construa uma tabela que avalie trimestralmente o resultado de vendas e plote um gráfico deste histórico
@@ -97,20 +94,6 @@ try:
     resultado_trimestral = query_df.groupby('trimestre')['valor'].sum().reset_index()
     
     resultado_trimestral.to_csv("sql_questão_4.txt", sep="\t", index=False, header=True, encoding="utf-8")
-    
-    # Converting the trimestre collumn to string for the visualization on graph
-    resultado_trimestral['trimestre'] = resultado_trimestral['trimestre'].astype(str)
-    
-    # Plot
-    plt.figure(figsize=(10, 6))
-    plt.plot(resultado_trimestral['trimestre'], resultado_trimestral['valor'], marker='o')
-    plt.title('Histórico Trimestral de Vendas', fontsize=16)
-    plt.xlabel('Trimestre', fontsize=12)
-    plt.ylabel('Total Vendido', fontsize=12)
-    plt.xticks(rotation=45)
-    plt.grid(True)
-    plt.tight_layout()
-    plt.show()
     
     # Close after the use
     cur.close()
